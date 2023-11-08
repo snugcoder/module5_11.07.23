@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <link rel="stylesheet" type="text/css" href="calendarstyle.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+</head>
+<body>
+    <div class="session-user">  
+        <!-- Login Functionality -->
+        <div class="login">
+        <form method="POST" id="login-form">
+        Login:
+        <input type="text" id="userlogin" name="userlogin" placeholder="username" />
+        <input type="text" id="loginpwd" name="loginpwd" placeholder="password" />
+        <button id="loginbtn" name="loginbtn">LOGIN</button>
+        </form>
+        <!-- <br> -->
+        </div>
+
+        <!-- Register Functionality  -->
+        <div class="register">
+        <form method="POST" id="register-form">
+        Register:
+        <input type="text" id="register-user" name="register-user" placeholder="username" />
+        <input type="text" id="register-password" name="register-password" placeholder="password" />
+        <button id="registerbtn" name="registerbtn" type="submit">REGISTER</button>
+        </form>
+        </div>
+        
+        <div class="loginCallback">
+        <h2 class="loggedIn" id="currentUser"></h2>
+        <p id="error"></p>
+        </div>
+
+        <!-- When fetch api works and decides to hid the login button, when it is successful or not -->
+    <div class="loginCallback">
+        <h2 class="loggedIn" id="currentUser"></h2>
+        <p id="error"></p>
+    </div>
+    </div>
+
+    <!-- Calendar Functionality -->
+    <div class="calendar-body">
+    <div id="calendar-title">
+        <button id="prevbtn" class="prevbtn">Previous</button>
+        <button id="nextbtn" class="nextbtn">Next</button>
+    </div>
+    <table>
+        <tr>
+            <th id="current-date"></th>
+        </tr>
+    </table>
+    <div id="calendar-dates"> 
+        <!-- create table to display dates -->
+        <table class="dates"> 
+            <tr>
+                <th>Sunday</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+            </tr>
+            <!-- create 6 rows, like in IOS calendar app -->
+            <tr id = "r1">
+                <!-- <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td> -->
+            </tr>
+            <tr id = "r2">
+                <!-- <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td> -->
+            </tr>
+            <tr id = "r3">
+                <!-- <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td> -->
+            </tr>
+            <tr id = "r4">
+                <!-- <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td> -->
+            </tr>
+            <tr id = "r5">
+                <!-- <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td> -->
+            </tr>
+            <tr id = "r6">
+                <!-- <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td> -->
+            </tr>
+        </table>
+        <!-- end -->
+    </div> 
+    </div>
+    <div class="event-body"></div>
+    <div class="newevent loggedIn">
+        <h3>Create Event</h3>
+        <h4>Title:</h4>
+         <input type="text" id="event_title">
+        <h3>Summary:</h3>
+        <textarea id="event_summary" name="event_summary" rows="6", cols="50"></textarea>
+        <h4>Date</h4>
+        <label for="event_year">Year:</label>
+        <input type="number" step="1" id="event_year">
+        <label for="event_month">Month:</label>
+        <input type="number" min="1" max="12" step="1" id="event_month">
+        <label for="event_day">Day:</label>
+        <input type="number" min="1" max="21" step="1" id="event_day">
+        <h4>Time:</h4>
+        <label for="event_hour">Hour:</label>
+        <input type="number" min="0" max="23" step="1" id="event_hour">
+        <label for="event_minute">Minute:</label>
+        <input type="number" min="0" max="59" step="1" id="event_minute">
+        <button id="createevent_btn" name="createevent_btn">Create Event</button>
+        <p id="createEventError"></p>
+    </div>
+    <!-- we need to hide editevent before a user logs in -->
+    <div class="editevent"> 
+        <h3>Edit/Delete Event</h3>
+        <label for="event_id">Day:</label>
+        <input type="number " min="1 " max="21" step="1" id="event_id">
+        <h4>Title</h4>
+        <input type="text" id="editevent_title">
+        <h3>Summary</h3>
+        <textarea id="event_summary" name="editevent_summary" rows="6", cols="50"></textarea>
+        <h4>Date</h4>
+        <label for="editevent_year">Year:</label>
+        <input type="number" step="1" id="editevent_year">
+        <label for="editevent_month ">Month:</label>
+        <input type="number " min="1 " max="12" step="1 " id="editevent_month ">
+        <label for="editevent_day">Day:</label>
+        <input type="number " min="1 " max="21" step="1" id="editevent_day ">
+        <h4>Time:</h4>
+        <label for="editevent_hour">Hour:</label>
+        <input type="number " min="0 " max="23" step="1" id="editevent_hour ">
+        <label for="editevent_minute ">Minute:</label>
+        <input type="number " min="0 " max="59 " step="1" id="editevent_minute ">
+        <button id="editevent_btn" value=" ">Edit Event</button>
+        <button id="deleteevent_btn" value=" ">Delete Event</button>
+        <p id="eventid" style="visibility: hidden "></p>
+        <!-- we need to get the eventid in a different way -->
+        <p id="editEventError "></p>
+    </div>
+    <br>
+    <div class="logoutbtn">
+        <button id="logout_btn" name="logout_btn" type="submit">LOGOUT</button>
+    </div>
+    <script src="./calendar.js"></script>  
+</body>
+</html>

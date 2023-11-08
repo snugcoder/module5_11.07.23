@@ -1,0 +1,4 @@
+showing events after clicking on a specific div
+
+get the specific calendar event onclick
+then display the event below the calendar

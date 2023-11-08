@@ -1,0 +1,12 @@
+table, th, td {
+  border: 1px solid black;
+  font-size: larger;
+  height: 80px;
+  color: black;
+  table-layout: fixed;
+  width: 100%;
+}
+
+body {
+  background: linear-gradient(to bottom, mistyRose, thistle);
+}
