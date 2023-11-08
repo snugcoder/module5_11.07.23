@@ -381,100 +381,124 @@ function getAllEventsCallback (allevents, eventlength, type){
 
 //build the calendar -> dates, months, year // only updates events
 function loadCalendar(events){
-  let weeksInMonth = currentMonth.getWeeks(); // remember this returns an array containing all the weeks that span in the specififed month =
+  // let weeksInMonth = currentMonth.getWeeks(); // remember this returns an array containing all the weeks that span in the specififed month =
   // can use nested for loop to excess each of the days in each week 
 
-  let rowcount = 1; // set a counter for rows to traverse 
+  // let rowcount = 1; // set a counter for rows to traverse 
 
-  for(let w in weeksInMonth){
-    // get necessary variables to traverse and manipulate DOM tree
-    let rowID = "r" + rowcount; 
-    let rowClass = $(rowID).children();
-    let days = weeksInMonth[w].getDates();
-    let daycount = 0;
-    // let numberEntry = document.getElementsByTagName("tr"); // get the row 
-    console.log(rowID)
-    let week = document.getElementById(rowID);
+  // for(let w in weeksInMonth){
+  //   // get necessary variables to traverse and manipulate DOM tree
+  //   let rowID = "r" + rowcount; 
+  //   let rowClass = $(rowID).children();
+  //   let days = weeksInMonth[w].getDates();
+  //   let daycount = 0;
+  //   // let numberEntry = document.getElementsByTagName("tr"); // get the row 
+  //   console.log(rowID)
+  //   let week = document.getElementById(rowID);
 
-    for (let d in days){
-      week.childNodes[daycount].textContent = days[d].getDate(); // got into each td in each tr to print the days 
-      console.log(d);
-      if(days[d].getMonth == currentMonth.month){
-        let currentDay = $(rowClass[daycount]);
-        currentDay.text(days[d].getDate());
+  //   for (let d in days){
+  //     week.childNodes[daycount].textContent = days[d].getDate(); // got into each td in each tr to print the days 
+  //     console.log(d);
+  //     if(days[d].getMonth == currentMonth.month){
+  //       let currentDay = $(rowClass[daycount]);
+  //       currentDay.text(days[d].getDate());
 
-        events.forEach(function(event){
-          if(new Date(event.startTime).toDateString() == days[d].toDateString() ){
-            let time = new Date(event.startTime);
+  //       events.forEach(function(event){
+  //         if(new Date(event.startTime).toDateString() == days[d].toDateString() ){
+  //           let time = new Date(event.startTime);
             
-            // let each day on calendar be a button to add new event
-            let eventButton = document.createElement("button");
-            let linebr = document.createElement("br");
-            eventButton.append(
-              document.createTextNode(
-                event.title + " " + time.toLocaleTimeString()
-              )
-            );
-            eventButton.setAttribute("class", "event");
-            eventButton.setAttribute("eventid", event.eventid);
-            eventButton.setAttribute("day", days[d].getDate());
-            eventButton.setAttribute("hour", eventtime.getHours());
-            eventButton.setAttribute("minute", eventtime.getMinutes());
-            eventButton.setAttribute("title", event.title);
-            eventButton.setAttribute("summary", event.summary);
-            eventButton.addEventListener("click", edit);
-            currentDay.append(eventButton);
-            currentDay.append(linebr);
-          }
-        });
-      }else{
-        let currentDay = $(rowClass[daycount]);
-        currentDay.text("");
-      }
-      daycount += 1;
-    }
-    rowcount += 1;
-  }
+  //           // let each day on calendar be a button to add new event
+  //           let eventButton = document.createElement("button");
+  //           let linebr = document.createElement("br");
+  //           eventButton.append(
+  //             document.createTextNode(
+  //               event.title + " " + time.toLocaleTimeString()
+  //             )
+  //           );
+  //           eventButton.setAttribute("class", "event");
+  //           eventButton.setAttribute("eventid", event.eventid);
+  //           eventButton.setAttribute("day", days[d].getDate());
+  //           eventButton.setAttribute("hour", eventtime.getHours());
+  //           eventButton.setAttribute("minute", eventtime.getMinutes());
+  //           eventButton.setAttribute("title", event.title);
+  //           eventButton.setAttribute("summary", event.summary);
+  //           eventButton.addEventListener("click", edit);
+  //           currentDay.append(eventButton);
+  //           currentDay.append(linebr);
+  //         }
+  //       });
+  //     }else{
+  //       let currentDay = $(rowClass[daycount]);
+  //       currentDay.text("");
+  //     }
+  //     daycount += 1;
+  //   }
+  //   rowcount += 1;
+  // }
   // if(rowcount == 7){
   //   $("#r6").children().text[""];
   // }
 }
 
 
-loadCalendar();
+//loadCalendar();
+calendarNumbering(currentMonth);
 
 function calendarNumbering (currentMonth) { // update the numbering of the calendar 
   // currentMonth is a Month object
+  
+  let rowcount = 1;
+  let counter = 1;
+  let rowID = "r" + rowcount;
   currentDate.innerText = `${currentMonth.month} ${currentMonth.year}`; // set the text in the calendar to be current month and year
 
+  let week = document.getElementById(rowID);
+
   let firstDay = new Date(currentMonth.year, currentMonth.month, 1) // first of current month 
-  let lastday = new Date(currentMonth.year, currentMonth.month + 1, 0) // last day of current month 
-  
+  let lastDay = new Date(currentMonth.year, currentMonth.month + 1, 0) // last day of current month 
   let weeks = currentMonth.getWeeks(); // get the weeks in the current month 
 
   let pastDay = firstDay.getSunday(); // gets the days in the last month 
 
-  let nextDay = lastDay.deltaDays(); // gets the 
+  // let nextDay = lastDay.deltaDays(); // gets the 
 
-  while(pastDay != currentDay)  {
-    `<td class= "pastMonth" id = ${pastDay.getDate() + counter} ></td>`
+
+  while(pastDay.getDate() != firstDay.getDate())  {  // add days of previous month & first is not being added here 
+    week.innerHTML += `<td class= "pastMonth" id = ${pastDay.getDate()} >${pastDay.getDate()}</td>`;
     pastDay.setDate(pastDay.getDate() + 1);
+    if(counter == 7){
+      counter = 1;
+      rowcount++;
+      rowID = "r" + rowcount;
+      week = document.getElementById(rowID);
+    }
+    else {
+      counter++;
+    }
   }
-
-  while(currentDay != lastDay)  {
-    `<td class= "currentMonth" id = ${currentDate.getDate()} ></td>`
-    currentDay.setDate(currentDay.getDate() + 1);
+  console.log("last day");
+  console.log(lastDay.getDate());
+  while(firstDay.getDate() != lastDay.getDate()) {  // add days of current month
+    console.log(firstDay.getDate());
+    week.innerHTML += `<td class= "currentMonth" id = ${firstDay.getDate()} >${firstDay.getDate()}</td>`;
+    firstDay.setDate(firstDay.getDate() + 1);
+    if(counter == 7){
+      counter = 1;
+      rowcount++;
+      rowID = "r" + rowcount;
+      week = document.getElementById(rowID);
+    }
+    else {
+      counter++;
+    }
   }
-
-  while(lastDay != nextDay) {
+  // console.log(counter);
+  
+  
+  while(counter <= 7) { // add the remaining days in the row 
+    week.innerHTML += `<td class= "nextMonth" id = ${lastDay.getDate()} >${lastDay.getDate()}</td>`;
     lastDay.setDate(lastDay.getDate() + 1);
-    `<td class= "currentMonth" id = ${lastDay.getDate()} ></td>`
-  }
-
-
-  for(let week in weeks) {
-    let daysInWeek = weeks[week].getDates();
-    let current
+    counter ++;
   }
 
 }
